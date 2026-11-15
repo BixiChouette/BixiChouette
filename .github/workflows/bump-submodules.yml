@@ -4,6 +4,10 @@ on:
     types: [submodule-updated]
   workflow_dispatch:
 
+concurrency:
+  group: submodule-bump
+  cancel-in-progress: false
+
 jobs:
   bump:
     runs-on: ubuntu-latest
