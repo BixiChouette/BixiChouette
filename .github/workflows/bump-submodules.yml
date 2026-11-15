@@ -1,0 +1,23 @@
+name: Bump submodules
+on:
+  repository_dispatch:
+    types: [submodule-updated]
+  workflow_dispatch:
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Update submodules to latest main
+        run: git submodule update --remote
+
+      - uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.SUBMODULE_PAT }}
+          branch: auto/submodule-bump
+          title: "chore: bump submodules"
+          commit-message: "chore: bump submodules"
